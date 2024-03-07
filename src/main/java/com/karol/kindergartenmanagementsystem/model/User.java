@@ -21,14 +21,14 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-    String firstName;
-    String lastName;
-    String phoneNumber;
-    String email;
-    String password;
+    private Integer id;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String email;
+    private String password;
     @Enumerated(value = EnumType.STRING)
-    Role role;
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
