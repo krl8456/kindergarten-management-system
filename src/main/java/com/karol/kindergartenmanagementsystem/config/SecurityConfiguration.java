@@ -2,6 +2,7 @@ package com.karol.kindergartenmanagementsystem.config;
 
 import com.karol.kindergartenmanagementsystem.filter.JwtAuthenticationFilter;
 import com.karol.kindergartenmanagementsystem.service.UserAccountDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,16 +17,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final UserAccountDetailsService userAccountDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    public SecurityConfiguration(UserAccountDetailsService userAccountDetailsService,
-                                 JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.userAccountDetailsService = userAccountDetailsService;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,15 +18,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserAccountDetailsService userAccountDetailsService;
-
-    public JwtAuthenticationFilter(JwtService jwtService,
-                                   UserAccountDetailsService userAccountDetailsService) {
-        this.jwtService = jwtService;
-        this.userAccountDetailsService = userAccountDetailsService;
-    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
