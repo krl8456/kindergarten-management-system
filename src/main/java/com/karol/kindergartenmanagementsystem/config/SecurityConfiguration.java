@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
     private final UserAccountDetailsService userAccountDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomLogoutHandler customLogoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,10 +37,10 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(l -> l.logoutUrl("/api/logout")
-                        .addLogoutHandler(logoutHandler)
+                        .addLogoutHandler(customLogoutHandler)
                         .logoutSuccessHandler(
                                 (request, response, authentication) -> SecurityContextHolder.clearContext()
-                        )
+                        ))
                 .build();
     }
 
