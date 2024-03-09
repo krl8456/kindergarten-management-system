@@ -11,6 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -31,9 +33,20 @@ public class AuthenticationService {
                 .orElseThrow(() -> new UsernameNotFoundException("Account with this email not found"));
 
         String token = jwtService.generateToken(user);
+        revokeAllTokensByUser(user);
         saveUserToken(token, user);
 
         return new AuthenticationResponse(token);
+    }
+
+    private void revokeAllTokensByUser(User user) {
+        List<Token> validTokensByUser = tokenRepository.findAllTokensByUser(user.getId());
+        if(!validTokensByUser.isEmpty()) {
+            validTokensByUser.forEach(t -> {
+                t.setLoggedOut(true);
+            });
+        }
+        tokenRepository.saveAll(validTokensByUser);
     }
 
     private void saveUserToken(String token, User user) {
