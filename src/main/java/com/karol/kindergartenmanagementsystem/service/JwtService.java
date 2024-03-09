@@ -1,10 +1,12 @@
 package com.karol.kindergartenmanagementsystem.service;
 
 import com.karol.kindergartenmanagementsystem.model.User;
+import com.karol.kindergartenmanagementsystem.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,18 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
+    private final TokenRepository tokenRepository;
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
     public boolean isValid(String token, UserDetails user) {
         String email = extractEmail(token);
-        return email.equals(user.getUsername()) && !isTokenExpired(token);
+        boolean isTokenValid = tokenRepository.findByToken(token)
+                .map(t -> !t.isLoggedOut()).orElse(false);
+
+        return email.equals(user.getUsername()) && !isTokenExpired(token) && isTokenValid;
     }
 
     private boolean isTokenExpired(String token) {
@@ -35,7 +42,7 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public<T> T extractClaim(String token, Function<Claims, T> resolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> resolver) {
         Claims claims = extractAllClaims(token);
         return resolver.apply(claims);
     }
