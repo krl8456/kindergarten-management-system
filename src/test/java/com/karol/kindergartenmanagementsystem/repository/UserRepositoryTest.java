@@ -43,7 +43,6 @@ class UserRepositoryTest {
                 .password("password")
                 .role(Role.PARENT)
                 .build();
-
         User user2 = User.builder()
                 .firstName("test2")
                 .lastName("test2")
@@ -51,7 +50,6 @@ class UserRepositoryTest {
                 .password("password")
                 .role(Role.PARENT)
                 .build();
-
         userRepository.save(user1);
         userRepository.save(user2);
 
@@ -70,8 +68,8 @@ class UserRepositoryTest {
                 .password("password")
                 .role(Role.PARENT)
                 .build();
-
         userRepository.save(user);
+
         User retrievedUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new AssertionError("User not found"));
 
@@ -87,8 +85,8 @@ class UserRepositoryTest {
                 .password("password")
                 .role(Role.PARENT)
                 .build();
-
         userRepository.save(user);
+
         User retrievedUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(() -> new AssertionError("User not found"));
 
@@ -104,14 +102,12 @@ class UserRepositoryTest {
                 .password("password")
                 .role(Role.PARENT)
                 .build();
-
         userRepository.save(user);
 
         User retrievedUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(() -> new AssertionError("User not found"));
         retrievedUser.setEmail("differentEmail@gmail.com");
         retrievedUser.setFirstName("newTest");
-
         User updatedUser = userRepository.save(retrievedUser);
 
         Assertions.assertNotNull(updatedUser);
@@ -128,8 +124,8 @@ class UserRepositoryTest {
                 .password("password")
                 .role(Role.PARENT)
                 .build();
-
         userRepository.save(user);
+
         userRepository.deleteById(user.getId());
         Optional<User> removalReturn = userRepository.findById(user.getId());
 

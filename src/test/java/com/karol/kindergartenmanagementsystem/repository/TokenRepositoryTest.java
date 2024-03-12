@@ -57,13 +57,11 @@ class TokenRepositoryTest {
                 .loggedOut(false)
                 .user(user)
                 .build();
-
         Token token2 = Token.builder()
                 .token("Token2")
                 .loggedOut(false)
                 .user(user)
                 .build();
-
         tokenRepository.save(token1);
         tokenRepository.save(token2);
 
@@ -95,13 +93,11 @@ class TokenRepositoryTest {
                 .loggedOut(false)
                 .user(user)
                 .build();
-
         Token token2 = Token.builder()
                 .token("Token2")
                 .loggedOut(false)
                 .user(user)
                 .build();
-
         tokenRepository.save(token1);
         tokenRepository.save(token2);
 
@@ -118,7 +114,6 @@ class TokenRepositoryTest {
                 .loggedOut(false)
                 .user(user)
                 .build();
-
         tokenRepository.save(token);
 
         Token retrievedToken = tokenRepository.findByToken(token.getToken())
@@ -128,19 +123,17 @@ class TokenRepositoryTest {
     }
 
     @Test
-        public void givenToken_whenUpdate_thenReturnsUpdatedToken() {
+    public void givenToken_whenUpdate_thenReturnsUpdatedToken() {
         Token token = Token.builder()
                 .token("Token")
                 .loggedOut(false)
                 .user(user)
                 .build();
-
         tokenRepository.save(token);
 
         Token retrievedToken = tokenRepository.findById(token.getId())
                 .orElseThrow(() -> new AssertionError("Token not found"));
         retrievedToken.setToken("newToken");
-
         Token updatedToken = tokenRepository.save(retrievedToken);
 
         Assertions.assertNotNull(updatedToken);
