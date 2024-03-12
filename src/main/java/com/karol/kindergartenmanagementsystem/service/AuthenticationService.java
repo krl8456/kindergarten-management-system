@@ -1,6 +1,7 @@
 package com.karol.kindergartenmanagementsystem.service;
 
-import com.karol.kindergartenmanagementsystem.model.AuthenticationResponse;
+import com.karol.kindergartenmanagementsystem.dto.AuthenticationResponse;
+import com.karol.kindergartenmanagementsystem.dto.SignInRequest;
 import com.karol.kindergartenmanagementsystem.model.Token;
 import com.karol.kindergartenmanagementsystem.model.User;
 import com.karol.kindergartenmanagementsystem.repository.TokenRepository;
@@ -21,7 +22,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
 
-    public AuthenticationResponse authenticate(User request) {
+    public AuthenticationResponse authenticate(SignInRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

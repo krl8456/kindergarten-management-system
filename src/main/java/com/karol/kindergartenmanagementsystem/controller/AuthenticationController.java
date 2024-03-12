@@ -1,7 +1,7 @@
 package com.karol.kindergartenmanagementsystem.controller;
 
-import com.karol.kindergartenmanagementsystem.model.AuthenticationResponse;
-import com.karol.kindergartenmanagementsystem.model.User;
+import com.karol.kindergartenmanagementsystem.dto.AuthenticationResponse;
+import com.karol.kindergartenmanagementsystem.dto.SignInRequest;
 import com.karol.kindergartenmanagementsystem.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody User request) {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody SignInRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }
