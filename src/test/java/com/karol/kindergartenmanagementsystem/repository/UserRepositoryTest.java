@@ -19,7 +19,7 @@ class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void UserRepository_Save_ReturnsSavedUser() {
+    public void givenUser_whenSave_thenReturnsSavedUser() {
         User user = User.builder()
                 .firstName("test")
                 .lastName("test")
@@ -35,7 +35,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_FindAll_ReturnsCorrectAmountOfUsers() {
+    public void givenUsers_whenFindAll_thenReturnsCorrectAmountOfUsers() {
         User user1 = User.builder()
                 .firstName("test")
                 .lastName("test")
@@ -62,7 +62,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_FindById_ReturnsUser() {
+    public void givenUser_whenFindById_thenReturnsUser() {
         User user = User.builder()
                 .firstName("test")
                 .lastName("test")
@@ -79,7 +79,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_FindByEmail_ReturnsUser() {
+    public void givenUser_whenFindByEmail_thenReturnsUser() {
         User user = User.builder()
                 .firstName("test")
                 .lastName("test")
@@ -96,7 +96,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_Update_ReturnsUser() {
+    public void givenUser_whenUpdate_thenReturnsUpdatedUser() {
         User user = User.builder()
                 .firstName("test")
                 .lastName("test")
@@ -120,7 +120,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    public void UserRepository_Delete_DeletessUser() {
+    public void givenUser_whenDelete_thenDeletesUser() {
         User user = User.builder()
                 .firstName("test")
                 .lastName("test")

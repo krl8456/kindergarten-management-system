@@ -37,9 +37,9 @@ class TokenRepositoryTest {
     }
 
     @Test
-    public void TokenRepository_Save_ReturnsSavedToken() {
+    public void givenToken_whenSave_thenReturnsSavedToken() {
         Token token = Token.builder()
-                .token("djndssfij")
+                .token("Token")
                 .loggedOut(false)
                 .user(user)
                 .build();
@@ -51,15 +51,15 @@ class TokenRepositoryTest {
     }
 
     @Test
-    public void TokenRepository_FindAll_ReturnsCorrectAmountOfUsers() {
+    public void givenTokens_whenFindAll_thenReturnsCorrectAmountOfTokens() {
         Token token1 = Token.builder()
-                .token("djndssfij")
+                .token("Token1")
                 .loggedOut(false)
                 .user(user)
                 .build();
 
         Token token2 = Token.builder()
-                .token("djndssfij")
+                .token("Token2")
                 .loggedOut(false)
                 .user(user)
                 .build();
@@ -74,9 +74,9 @@ class TokenRepositoryTest {
     }
 
     @Test
-    public void TokenRepository_FindById_ReturnsToken() {
+    public void givenToken_whenFindById_thenReturnsToken() {
         Token token = Token.builder()
-                .token("djndssfij")
+                .token("Token")
                 .loggedOut(false)
                 .user(user)
                 .build();
@@ -89,15 +89,15 @@ class TokenRepositoryTest {
     }
 
     @Test
-    public void TokenRepository_FindAllTokensByUser_ReturnsTokenByUser() {
+    public void givenTokens_whenFindAllTokensByUser_thenReturnsTokensByUser() {
         Token token1 = Token.builder()
-                .token("djndssfij")
+                .token("Token1")
                 .loggedOut(false)
                 .user(user)
                 .build();
 
         Token token2 = Token.builder()
-                .token("djndssfij")
+                .token("Token2")
                 .loggedOut(false)
                 .user(user)
                 .build();
@@ -112,9 +112,9 @@ class TokenRepositoryTest {
     }
 
     @Test
-    public void TokenRepository_FindByToken_ReturnsToken() {
+    public void givenToken_whenFindByTokenValue_thenReturnsToken() {
         Token token = Token.builder()
-                .token("djndssfij")
+                .token("Token")
                 .loggedOut(false)
                 .user(user)
                 .build();
@@ -128,9 +128,9 @@ class TokenRepositoryTest {
     }
 
     @Test
-    public void TokenRepository_Update_ReturnsToken() {
+        public void givenToken_whenUpdate_thenReturnsUpdatedToken() {
         Token token = Token.builder()
-                .token("djndssfij")
+                .token("Token")
                 .loggedOut(false)
                 .user(user)
                 .build();
@@ -148,9 +148,9 @@ class TokenRepositoryTest {
     }
 
     @Test
-    public void TokenRepository_Delete_DeletesToken() {
+    public void givenToken_whenDelete_thenDeletesToken() {
         Token token = Token.builder()
-                .token("djndssfij")
+                .token("Token")
                 .loggedOut(false)
                 .user(user)
                 .build();
