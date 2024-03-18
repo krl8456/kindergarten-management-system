@@ -20,6 +20,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = AuthenticationController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -43,11 +46,11 @@ class AuthenticationControllerTest {
         AuthenticationResponse response = new AuthenticationResponse("token");
         when(authenticationService.authenticate(request)).thenReturn(response);
 
-        ResultActions responseResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+        ResultActions responseResult = mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
 
-        responseResult.andExpect(MockMvcResultMatchers.status().isOk());
+        responseResult.andExpect(status().isOk());
     }
 
     @Test
@@ -59,12 +62,12 @@ class AuthenticationControllerTest {
         AuthenticationResponse response = new AuthenticationResponse("expectedToken");
         when(authenticationService.authenticate(request)).thenReturn(response);
 
-        ResultActions responseResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+        ResultActions responseResult = mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
 
-        responseResult.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(response)));
+        responseResult.andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(response)));
     }
 
     @Test
@@ -76,11 +79,11 @@ class AuthenticationControllerTest {
         AuthenticationResponse response = new AuthenticationResponse("token");
         when(authenticationService.authenticate(request)).thenReturn(response);
 
-        ResultActions responseResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+        ResultActions responseResult = mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
 
-        responseResult.andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string(notNullValue()));
+        responseResult.andExpect(status().isBadRequest())
+                .andExpect(content().string(notNullValue()));
     }
 }

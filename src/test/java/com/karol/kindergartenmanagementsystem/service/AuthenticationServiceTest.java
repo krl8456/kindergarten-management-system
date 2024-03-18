@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +48,7 @@ class AuthenticationServiceTest {
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 
         AuthenticationResponse response = authenticationService.authenticate(request);
-        Assertions.assertNotNull(response);
+        assertNotNull(response);
     }
 
     @Test
@@ -58,7 +60,7 @@ class AuthenticationServiceTest {
                 .password(password)
                 .build();
 
-        Assertions.assertThrows(UsernameNotFoundException.class, () -> {
+        assertThrows(UsernameNotFoundException.class, () -> {
             authenticationService.authenticate(request);
         });
     }

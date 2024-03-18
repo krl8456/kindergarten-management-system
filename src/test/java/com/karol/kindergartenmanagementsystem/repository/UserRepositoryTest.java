@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class UserRepositoryTest {
@@ -30,8 +32,8 @@ class UserRepositoryTest {
 
         User savedUser = userRepository.save(user);
 
-        Assertions.assertNotNull(savedUser);
-        Assertions.assertTrue(savedUser.getId() > 0);
+        assertNotNull(savedUser);
+        assertTrue(savedUser.getId() > 0);
     }
 
     @Test
@@ -55,8 +57,8 @@ class UserRepositoryTest {
 
         List<User> savedUsers = userRepository.findAll();
 
-        Assertions.assertNotNull(savedUsers);
-        Assertions.assertEquals(2, savedUsers.size());
+        assertNotNull(savedUsers);
+        assertEquals(2, savedUsers.size());
     }
 
     @Test
@@ -73,7 +75,7 @@ class UserRepositoryTest {
         User retrievedUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new AssertionError("User not found"));
 
-        Assertions.assertNotNull(retrievedUser);
+        assertNotNull(retrievedUser);
     }
 
     @Test
@@ -90,7 +92,7 @@ class UserRepositoryTest {
         User retrievedUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(() -> new AssertionError("User not found"));
 
-        Assertions.assertNotNull(retrievedUser);
+        assertNotNull(retrievedUser);
     }
 
     @Test
@@ -110,9 +112,9 @@ class UserRepositoryTest {
         retrievedUser.setFirstName("newTest");
         User updatedUser = userRepository.save(retrievedUser);
 
-        Assertions.assertNotNull(updatedUser);
-        Assertions.assertNotNull(updatedUser.getEmail());
-        Assertions.assertNotNull(updatedUser.getFirstName());
+        assertNotNull(updatedUser);
+        assertNotNull(updatedUser.getEmail());
+        assertNotNull(updatedUser.getFirstName());
     }
 
     @Test
@@ -129,6 +131,6 @@ class UserRepositoryTest {
         userRepository.deleteById(user.getId());
         Optional<User> removalReturn = userRepository.findById(user.getId());
 
-        Assertions.assertTrue(removalReturn.isEmpty());
+        assertTrue(removalReturn.isEmpty());
     }
 }

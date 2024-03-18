@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,8 +32,8 @@ class UserAccountDetailsServiceTest {
 
         UserDetails retrievedUser = userAccountDetailsService.loadUserByUsername(user.getEmail());
 
-        Assertions.assertNotNull(retrievedUser);
-        Assertions.assertEquals(retrievedUser.getUsername(), user.getUsername());
+        assertNotNull(retrievedUser);
+        assertEquals(retrievedUser.getUsername(), user.getUsername());
     }
 
     @Test
@@ -40,7 +41,7 @@ class UserAccountDetailsServiceTest {
         String email = "nonexistent@example.com";
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(UsernameNotFoundException.class, () -> userAccountDetailsService.loadUserByUsername(email));
+        assertThrows(UsernameNotFoundException.class, () -> userAccountDetailsService.loadUserByUsername(email));
     }
 
     @Test
@@ -49,8 +50,8 @@ class UserAccountDetailsServiceTest {
 
         userAccountDetailsService.save(user);
 
-        Assertions.assertNotNull(user.getCreatedAt());
-        Assertions.assertNotNull(user.getUpdatedAt());
+        assertNotNull(user.getCreatedAt());
+        assertNotNull(user.getUpdatedAt());
     }
 
     @Test
@@ -61,7 +62,7 @@ class UserAccountDetailsServiceTest {
 
         userAccountDetailsService.save(user);
 
-        Assertions.assertNull(user.getCreatedAt());
-        Assertions.assertNotNull(user.getUpdatedAt());
+        assertNull(user.getCreatedAt());
+        assertNotNull(user.getUpdatedAt());
     }
 }

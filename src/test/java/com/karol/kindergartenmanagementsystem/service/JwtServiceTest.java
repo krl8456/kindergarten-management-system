@@ -4,7 +4,9 @@ import com.karol.kindergartenmanagementsystem.model.Token;
 import com.karol.kindergartenmanagementsystem.model.User;
 import com.karol.kindergartenmanagementsystem.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
+import jakarta.validation.Valid;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.FileInputStream;
@@ -20,6 +23,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.Properties;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -46,7 +50,7 @@ class JwtServiceTest {
 
         String token = jwtService.generateToken(user);
 
-        Assertions.assertNotNull(token);
+        assertNotNull(token);
     }
 
     @Test
@@ -59,7 +63,7 @@ class JwtServiceTest {
 
         String retrievedEmailFromToken = jwtService.extractEmail(token);
 
-        Assertions.assertEquals(expectedEmail, retrievedEmailFromToken);
+        assertEquals(expectedEmail, retrievedEmailFromToken);
     }
 
     @Test
@@ -72,7 +76,7 @@ class JwtServiceTest {
 
         String retrievedEmail = jwtService.extractClaim(token, Claims::getSubject);
 
-        Assertions.assertEquals(expectedEmail, retrievedEmail);
+        assertEquals(expectedEmail, retrievedEmail);
     }
 
     @Test
@@ -83,7 +87,7 @@ class JwtServiceTest {
         String token = jwtService.generateToken(user);
 
         Date expirationDate = jwtService.extractClaim(token, Claims::getExpiration);
-        Assertions.assertNotNull(expirationDate);
+        assertNotNull(expirationDate);
     }
 
     @Test
@@ -97,7 +101,7 @@ class JwtServiceTest {
 
         boolean isTokenValid = jwtService.isValid(generatedToken, user);
 
-        Assertions.assertTrue(isTokenValid);
+        assertTrue(isTokenValid);
     }
 
     @Test
@@ -110,7 +114,7 @@ class JwtServiceTest {
 
         boolean isTokenValid = jwtService.isValid(token, user);
 
-        Assertions.assertFalse(isTokenValid);
+        assertFalse(isTokenValid);
     }
 
     @Test
@@ -124,7 +128,7 @@ class JwtServiceTest {
 
         boolean isTokenValid = jwtService.isValid(token, user);
 
-        Assertions.assertFalse(isTokenValid);
+        assertFalse(isTokenValid);
     }
 
     @Test
@@ -136,6 +140,6 @@ class JwtServiceTest {
 
         boolean isTokenValid = jwtService.isValid(token, user);
 
-        Assertions.assertFalse(isTokenValid);
+        assertFalse(isTokenValid);
     }
 }

@@ -14,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -46,8 +48,8 @@ class TokenRepositoryTest {
 
         Token savedToken = tokenRepository.save(token);
 
-        Assertions.assertNotNull(savedToken);
-        Assertions.assertTrue(savedToken.getId() > 0);
+        assertNotNull(savedToken);
+        assertTrue(savedToken.getId() > 0);
     }
 
     @Test
@@ -67,8 +69,8 @@ class TokenRepositoryTest {
 
         List<Token> savedTokens = tokenRepository.findAll();
 
-        Assertions.assertNotNull(savedTokens);
-        Assertions.assertEquals(2, savedTokens.size());
+        assertNotNull(savedTokens);
+        assertEquals(2, savedTokens.size());
     }
 
     @Test
@@ -83,7 +85,7 @@ class TokenRepositoryTest {
         Token retrievedToken = tokenRepository.findById(token.getId())
                 .orElseThrow(() -> new AssertionError("Token not found"));
 
-        Assertions.assertNotNull(retrievedToken);
+        assertNotNull(retrievedToken);
     }
 
     @Test
@@ -103,8 +105,8 @@ class TokenRepositoryTest {
 
         List<Token> tokensByUser = tokenRepository.findAllTokensByUser(user.getId());
 
-        Assertions.assertNotNull(tokensByUser);
-        Assertions.assertEquals(2, tokensByUser.size());
+        assertNotNull(tokensByUser);
+        assertEquals(2, tokensByUser.size());
     }
 
     @Test
@@ -119,7 +121,7 @@ class TokenRepositoryTest {
         Token retrievedToken = tokenRepository.findByToken(token.getToken())
                 .orElseThrow(() -> new AssertionError("Token not found"));
 
-        Assertions.assertNotNull(retrievedToken);
+        assertNotNull(retrievedToken);
     }
 
     @Test
@@ -136,8 +138,8 @@ class TokenRepositoryTest {
         retrievedToken.setToken("newToken");
         Token updatedToken = tokenRepository.save(retrievedToken);
 
-        Assertions.assertNotNull(updatedToken);
-        Assertions.assertNotNull(updatedToken.getToken());
+        assertNotNull(updatedToken);
+        assertNotNull(updatedToken.getToken());
     }
 
     @Test
@@ -152,6 +154,6 @@ class TokenRepositoryTest {
         tokenRepository.deleteById(token.getId());
         Optional<Token> removalResult = tokenRepository.findById(token.getId());
 
-        Assertions.assertTrue(removalResult.isEmpty());
+        assertTrue(removalResult.isEmpty());
     }
 }
