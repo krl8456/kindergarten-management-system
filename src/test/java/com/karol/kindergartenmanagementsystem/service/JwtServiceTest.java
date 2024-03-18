@@ -4,9 +4,6 @@ import com.karol.kindergartenmanagementsystem.model.Token;
 import com.karol.kindergartenmanagementsystem.model.User;
 import com.karol.kindergartenmanagementsystem.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
-import jakarta.validation.Valid;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.FileInputStream;

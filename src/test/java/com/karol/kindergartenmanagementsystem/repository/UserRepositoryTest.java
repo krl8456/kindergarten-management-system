@@ -2,7 +2,6 @@ package com.karol.kindergartenmanagementsystem.repository;
 
 import com.karol.kindergartenmanagementsystem.model.Role;
 import com.karol.kindergartenmanagementsystem.model.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
