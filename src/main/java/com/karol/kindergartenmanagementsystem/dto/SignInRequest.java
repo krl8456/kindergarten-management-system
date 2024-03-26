@@ -9,17 +9,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static com.karol.kindergartenmanagementsystem.validation.ValidationMessages.*;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignInRequest {
-    @NotNull(message = "Email is mandatory")
-    @NotBlank(message = "Email is mandatory")
-    @Email(message = "Invalid email format")
+    @NotNull(message = EMAIL_REQUIRED)
+    @NotBlank(message = EMAIL_REQUIRED)
+    @Email(message = EMAIL_INVALID_FORMAT)
     private String email;
-    @NotNull(message = "Password is mandatory")
-    @NotBlank(message = "Password is mandatory")
-    @Size(min = 5, max = 40, message = "Password must be between 5 and 40 characters")
+    @NotNull(message = EMAIL_INVALID_FORMAT)
+    @NotBlank(message = PASSWORD_REQUIRED)
+    @Size(min = 5, max = 40, message = PASSWORD_INVALID_LENGTH)
     private String password;
 }
