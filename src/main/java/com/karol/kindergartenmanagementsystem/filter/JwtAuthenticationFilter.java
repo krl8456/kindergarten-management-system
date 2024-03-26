@@ -17,6 +17,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderProperties.AUTHORIZATION_HEADER;
+import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderProperties.TOKEN_PREFIX;
+
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -27,13 +30,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        String authHeader = request.getHeader(AUTHORIZATION_HEADER.getValue());
+        if (authHeader == null || !authHeader.startsWith(TOKEN_PREFIX.getValue())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authHeader.substring(7);
+        String token = authHeader.substring(TOKEN_PREFIX.getValue().length());
         String email = jwtService.extractEmail(token);
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userAccountDetailsService.loadUserByUsername(email);
