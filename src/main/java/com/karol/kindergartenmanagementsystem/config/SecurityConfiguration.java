@@ -26,7 +26,7 @@ public class SecurityConfiguration {
     private final UserAccountDetailsService userAccountDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomLogoutHandler customLogoutHandler;
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final AccessDeniedHandlerImpl accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                         .anyRequest()
                         .authenticated()
                 ).userDetailsService(userAccountDetailsService)
-                .exceptionHandling(e -> e.accessDeniedHandler(customAccessDeniedHandler)
+                .exceptionHandling(e -> e.accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
