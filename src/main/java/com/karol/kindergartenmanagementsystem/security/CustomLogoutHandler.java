@@ -20,12 +20,12 @@ public class CustomLogoutHandler implements LogoutHandler {
     public void logout(HttpServletRequest request,
                        HttpServletResponse response,
                        Authentication authentication) {
-        String authHeader = request.getHeader(AUTHORIZATION_HEADER.getValue());
-        if (authHeader == null || !authHeader.startsWith(TOKEN_PREFIX.getValue())) {
+        String authHeader = request.getHeader(AUTHORIZATION_HEADER);
+        if (authHeader == null || !authHeader.startsWith(TOKEN_PREFIX)) {
             return;
         }
 
-        String token = authHeader.substring(TOKEN_PREFIX.getValue().length());
+        String token = authHeader.substring(TOKEN_PREFIX.length());
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
         if (token != null) {
             storedToken.setLoggedOut(true);
