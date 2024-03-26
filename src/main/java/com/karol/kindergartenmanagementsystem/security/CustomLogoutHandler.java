@@ -1,4 +1,4 @@
-package com.karol.kindergartenmanagementsystem.config;
+package com.karol.kindergartenmanagementsystem.security;
 
 import com.karol.kindergartenmanagementsystem.model.Token;
 import com.karol.kindergartenmanagementsystem.repository.TokenRepository;

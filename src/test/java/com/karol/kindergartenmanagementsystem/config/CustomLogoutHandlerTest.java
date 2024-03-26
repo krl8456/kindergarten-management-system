@@ -2,6 +2,7 @@ package com.karol.kindergartenmanagementsystem.config;
 
 import com.karol.kindergartenmanagementsystem.model.Token;
 import com.karol.kindergartenmanagementsystem.repository.TokenRepository;
+import com.karol.kindergartenmanagementsystem.security.CustomLogoutHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;

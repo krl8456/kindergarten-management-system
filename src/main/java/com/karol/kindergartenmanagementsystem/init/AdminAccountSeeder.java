@@ -1,4 +1,4 @@
-package com.karol.kindergartenmanagementsystem.config;
+package com.karol.kindergartenmanagementsystem.init;
 
 import com.karol.kindergartenmanagementsystem.model.Role;
 import com.karol.kindergartenmanagementsystem.model.User;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SeedAdminAccountConfiguration implements CommandLineRunner {
+public class AdminAccountSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserAccountDetailsService userAccountDetailsService;

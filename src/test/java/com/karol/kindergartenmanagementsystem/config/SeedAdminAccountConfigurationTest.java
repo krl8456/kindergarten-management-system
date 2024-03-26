@@ -1,5 +1,6 @@
 package com.karol.kindergartenmanagementsystem.config;
 
+import com.karol.kindergartenmanagementsystem.init.AdminAccountSeeder;
 import com.karol.kindergartenmanagementsystem.model.Role;
 import com.karol.kindergartenmanagementsystem.model.User;
 import com.karol.kindergartenmanagementsystem.repository.UserRepository;
@@ -23,14 +24,14 @@ class SeedAdminAccountConfigurationTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private SeedAdminAccountConfiguration seedAdminAccountConfiguration;
+    private AdminAccountSeeder adminAccountSeeder;
     @Value("${admin.password}")
     private String adminPassword;
     @Test
     public void givenSeedAdminAccount_whenAdminDoNotExist_thenCreatesAdminUser() {
         userRepository.deleteAll();
 
-        seedAdminAccountConfiguration.run();
+        adminAccountSeeder.run();
 
         List<User> users = userRepository.findAll();
         assertEquals(1, users.size());
@@ -45,7 +46,7 @@ class SeedAdminAccountConfigurationTest {
 
     @Test
     public void givenSeedAdminAccount_whenAdminExists_thenDoesntCreateAdminUser() {
-        seedAdminAccountConfiguration.run();
+        adminAccountSeeder.run();
 
         List<User> users = userRepository.findAll();
         assertEquals(1, users.size());

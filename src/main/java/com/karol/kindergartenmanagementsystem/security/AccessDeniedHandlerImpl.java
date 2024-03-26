@@ -1,4 +1,4 @@
-package com.karol.kindergartenmanagementsystem.config;
+package com.karol.kindergartenmanagementsystem.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
