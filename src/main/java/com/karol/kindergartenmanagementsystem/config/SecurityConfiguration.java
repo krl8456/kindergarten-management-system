@@ -22,16 +22,14 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private final UserAccountDetailsService userAccountDetailsService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final CustomLogoutHandler customLogoutHandler;
-    private final AccessDeniedHandlerImpl accessDeniedHandler;
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(UserAccountDetailsService userAccountDetailsService,
+                                                   JwtAuthenticationFilter jwtAuthenticationFilter,
+                                                   CustomLogoutHandler customLogoutHandler,
+                                                   AccessDeniedHandlerImpl accessDeniedHandler,
+                                                   HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
