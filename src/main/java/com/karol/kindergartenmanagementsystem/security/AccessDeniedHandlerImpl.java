@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException){
-        log.warn("Access denied for user: {} trying to access: {}", request.getRemoteUser(), request.getRequestURI());
+        log.info("Access denied for user: {} trying to access: {}", request.getRemoteUser(), request.getRequestURI());
         response.setStatus(HttpStatus.FORBIDDEN.value());
     }
 }
