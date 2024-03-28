@@ -3,13 +3,12 @@ package com.karol.kindergartenmanagementsystem.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "token")
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Builder
+@Table(name = "token")
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,7 +4,6 @@ import com.karol.kindergartenmanagementsystem.filter.JwtAuthenticationFilter;
 import com.karol.kindergartenmanagementsystem.security.AccessDeniedHandlerImpl;
 import com.karol.kindergartenmanagementsystem.security.CustomLogoutHandler;
 import com.karol.kindergartenmanagementsystem.service.UserAccountDetailsService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

@@ -14,10 +14,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "`user`")
 public class User implements UserDetails {
     @Id
