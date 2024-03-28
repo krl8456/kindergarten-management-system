@@ -24,19 +24,4 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody SignInRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationException(MethodArgumentNotValidException exception) {
-        Map<String, String> errors = new HashMap<>();
-
-        exception.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-
-        return errors;
-    }
-
 }
