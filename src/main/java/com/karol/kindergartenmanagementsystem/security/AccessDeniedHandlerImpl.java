@@ -8,12 +8,17 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+
 @Component
 @Slf4j
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException){
-        log.info("Access denied for user: {} trying to access: {}", request.getRemoteUser(), request.getRequestURI());
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
+        log.info("Access denied for user: {} trying to access: {} at {}", request.getRemoteUser(), request.getRequestURI(), LocalDateTime.now());
         response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setContentType("application/json");
+        response.getWriter().write("{\"message\":\"Access denied\"}");
     }
 }
