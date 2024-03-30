@@ -40,12 +40,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     String email = jwtService.extractEmail(token);
 
                     authenticateUser(email, token, request);
-
-                    proceedWithFilterChain(request, response, filterChain);
                 }, () -> {
                     log.info("No authorization header found or it does not start with the expected prefix.");
-                    proceedWithFilterChain(request, response, filterChain);
                 });
+
+        proceedWithFilterChain(request, response, filterChain);
     }
 
     private void authenticateUser(String email, String token, HttpServletRequest request) {
