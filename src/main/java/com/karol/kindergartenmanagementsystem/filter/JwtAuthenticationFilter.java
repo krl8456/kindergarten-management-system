@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain) {
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
         Optional.ofNullable(request.getHeader(AUTHORIZATION_HEADER))
                 .filter(authHeader -> authHeader.startsWith(TOKEN_PREFIX))
                 .ifPresentOrElse(authHeader -> {
@@ -40,11 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     String email = jwtService.extractEmail(token);
 
                     authenticateUser(email, token, request);
-                }, () -> {
-                    log.info("No authorization header found or it does not start with the expected prefix.");
-                });
+                }, () -> log.info("No authorization header found or it does not start with the expected prefix."));
 
-        proceedWithFilterChain(request, response, filterChain);
+        filterChain.doFilter(request, response);
     }
 
     private void authenticateUser(String email, String token, HttpServletRequest request) {
@@ -57,14 +55,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
-        }
-    }
-
-    private void proceedWithFilterChain(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
-        try {
-            filterChain.doFilter(request, response);
-        } catch (IOException | ServletException e) {
-            throw new RuntimeException(e);
         }
     }
 }
