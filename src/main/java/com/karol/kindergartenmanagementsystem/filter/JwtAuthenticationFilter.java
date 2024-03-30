@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) {
         Optional.ofNullable(request.getHeader(AUTHORIZATION_HEADER))
-                .filter(authHeader -> authHeader.startsWith(AUTHORIZATION_HEADER))
+                .filter(authHeader -> authHeader.startsWith(TOKEN_PREFIX))
                 .ifPresentOrElse(authHeader -> {
                     String token = authHeader.substring(TOKEN_PREFIX.length());
                     String email = jwtService.extractEmail(token);
