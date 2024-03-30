@@ -16,6 +16,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
+import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderProperties.AUTHORIZATION_HEADER;
+import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderProperties.TOKEN_PREFIX;
 
 @ExtendWith(MockitoExtension.class)
 class CustomLogoutHandlerTest {
@@ -35,7 +37,7 @@ class CustomLogoutHandlerTest {
                 .loggedOut(false)
                 .token("token")
                 .build();
-        when(request.getHeader("Authorization")).thenReturn("Bearer " + token.getToken());
+        when(request.getHeader(AUTHORIZATION_HEADER)).thenReturn(TOKEN_PREFIX + token.getToken());
         when(tokenRepository.findByToken(token.getToken())).thenReturn(Optional.of(token));
 
         customLogoutHandler.logout(request, response, authentication);
