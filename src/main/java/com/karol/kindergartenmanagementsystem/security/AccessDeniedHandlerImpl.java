@@ -15,13 +15,16 @@ import java.time.LocalDateTime;
 @Component
 @Slf4j
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
-    private final String responseMessage = "{\"message\":\"Access denied\"}";
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
+        String responseMessage = "{\"message\":\"Access denied\"}";
+
         log.info("Access denied for user: {} trying to access: {} at {}", request.getRemoteUser(), request.getRequestURI(), LocalDateTime.now());
+        
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(responseMessage);
     }
 }
+

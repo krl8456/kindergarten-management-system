@@ -15,11 +15,13 @@ import java.time.LocalDateTime;
 @Component
 @Slf4j
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
-    private final String responseMessage = "{\"message\":\"Authentication failed\"}";
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException{
+        String responseMessage = "{\"message\":\"Authentication failed\"}";
+
         log.info("Attempted unauthorized access: User '{}' attempted to access '{}' at {}", request.getRemoteUser(), request.getRequestURI(), LocalDateTime.now());
+
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(responseMessage);
