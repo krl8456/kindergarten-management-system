@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class JwtService {
     private final TokenRepository tokenRepository;
     @Value("${jwt.secret}")
-    private String SECRET_KEY;
+    private String JWTSecretKey;
 
     public boolean isValid(String token, UserDetails user) {
         String email = extractEmail(token);
@@ -67,7 +67,7 @@ public class JwtService {
     }
 
     private SecretKey getSigninKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(JWTSecretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
