@@ -45,20 +45,21 @@ public class AuthenticationService {
     private void revokeAllTokensByUser(User user) {
         List<Token> validTokensByUser = tokenRepository.findAllTokensByUser(user.getId());
 
-        if(!validTokensByUser.isEmpty()) {
+        if (!validTokensByUser.isEmpty()) {
             validTokensByUser.forEach(t -> t.setLoggedOut(true));
             tokenRepository.saveAll(validTokensByUser);
-        }
-        else {
+        } else {
             log.info("No tokens found for user: {}", user.getId());
         }
     }
 
     private void saveUserToken(String token, User user) {
-        Token tokenWithStatus = new Token();
-        tokenWithStatus.setToken(token);
-        tokenWithStatus.setLoggedOut(false);
-        tokenWithStatus.setUser(user);
+        Token tokenWithStatus = Token.builder()
+                .token(token)
+                .loggedOut(false)
+                .user(user)
+                .build();
+
         tokenRepository.save(tokenWithStatus);
     }
 }
