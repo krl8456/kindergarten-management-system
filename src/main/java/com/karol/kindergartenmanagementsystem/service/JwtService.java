@@ -57,11 +57,13 @@ public class JwtService {
     }
 
     public String generateToken(User user) {
+        long millisecondsInOneDay = 24 * 60 * 60 * 1000;
+
         return Jwts
                 .builder()
                 .subject(user.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
+                .expiration(new Date(System.currentTimeMillis() + millisecondsInOneDay))
                 .signWith(getSigninKey())
                 .compact();
     }
