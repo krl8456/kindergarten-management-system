@@ -7,6 +7,7 @@ import com.karol.kindergartenmanagementsystem.model.User;
 import com.karol.kindergartenmanagementsystem.repository.TokenRepository;
 import com.karol.kindergartenmanagementsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
@@ -42,12 +44,14 @@ public class AuthenticationService {
 
     private void revokeAllTokensByUser(User user) {
         List<Token> validTokensByUser = tokenRepository.findAllTokensByUser(user.getId());
+
         if(!validTokensByUser.isEmpty()) {
-            validTokensByUser.forEach(t -> {
-                t.setLoggedOut(true);
-            });
+            validTokensByUser.forEach(t -> t.setLoggedOut(true));
+            tokenRepository.saveAll(validTokensByUser);
         }
-        tokenRepository.saveAll(validTokensByUser);
+        else {
+            log.info("No tokens found for user: {}", user.getId());
+        }
     }
 
     private void saveUserToken(String token, User user) {
