@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class UserRepositoryTest {
+    @Autowired
+    private TestEntityManager entityManager;
     @Autowired
     private UserRepository userRepository;
 
@@ -131,5 +135,43 @@ class UserRepositoryTest {
         Optional<User> removalReturn = userRepository.findById(user.getId());
 
         assertTrue(removalReturn.isEmpty());
+    }
+
+    @Test
+    public void givenNotCreatedUser_whenSave_thenSetsCreatedAtAndUpdatedAt() {
+        User user = User
+                .builder()
+                .email("test@example.com")
+                .password("password")
+                .role(Role.PARENT)
+                .build();
+
+        entityManager.persistAndFlush(user);
+
+        assertNotNull(user.getCreatedAt());
+        assertNotNull(user.getUpdatedAt());
+    }
+
+    @Test
+    public void givenCreatedUser_whenUpdate_thenSetsCreatedAtStaysTheSame() {
+        User user = User
+                .builder()
+                .email("test@example.com")
+                .password("password")
+                .role(Role.PARENT)
+                .build();
+        entityManager.persistAndFlush(user);
+        Instant creationDate = user.getCreatedAt();
+        Instant updateDate = user.getUpdatedAt();
+
+        user.setEmail("different@example.com");
+        entityManager.persistAndFlush(user);
+        Instant creationDateAfterSave = user.getCreatedAt();
+        Instant updateDateAfterSave = user.getUpdatedAt();
+
+        assertNotNull(creationDateAfterSave);
+        assertNotNull(updateDateAfterSave);
+        assertEquals(creationDate, creationDateAfterSave);
+        assertNotEquals(updateDate, updateDateAfterSave);
     }
 }

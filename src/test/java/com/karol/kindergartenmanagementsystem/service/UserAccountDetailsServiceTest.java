@@ -42,26 +42,4 @@ class UserAccountDetailsServiceTest {
 
         assertThrows(UsernameNotFoundException.class, () -> userAccountDetailsService.loadUserByUsername(email));
     }
-
-    @Test
-    public void givenNotCreatedUser_whenSave_thenSetsCreatedAtAndUpdatedAt() {
-        User user = new User();
-
-        userAccountDetailsService.save(user);
-
-        assertNotNull(user.getCreatedAt());
-        assertNotNull(user.getUpdatedAt());
-    }
-
-    @Test
-    public void givenCreatedUser_whenSave_thenSetsOnlyUpdatedAt() {
-        User user = User.builder()
-                .id(1)
-                .build();
-
-        userAccountDetailsService.save(user);
-
-        assertNull(user.getCreatedAt());
-        assertNotNull(user.getUpdatedAt());
-    }
 }
