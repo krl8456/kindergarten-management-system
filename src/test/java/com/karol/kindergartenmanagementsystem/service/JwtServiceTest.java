@@ -35,7 +35,7 @@ class JwtServiceTest {
         Properties properties = new Properties();
         properties.load(new FileInputStream("src/main/resources/application.properties"));
         String secretKey = properties.getProperty("jwt.secret");
-        ReflectionTestUtils.setField(jwtService, "SECRET_KEY", secretKey);
+        ReflectionTestUtils.setField(jwtService, "JWTSecretKey", secretKey);
     }
 
     @Test
