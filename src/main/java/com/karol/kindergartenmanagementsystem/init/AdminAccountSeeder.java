@@ -20,7 +20,6 @@ public class AdminAccountSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserAccountDetailsService userAccountDetailsService;
-
     @Value("${firstname}")
     private String firstName;
     @Value("${lastname}")

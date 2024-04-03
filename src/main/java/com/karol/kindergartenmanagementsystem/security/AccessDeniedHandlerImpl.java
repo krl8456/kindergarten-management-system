@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Component
 @Slf4j
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
-
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         String responseMessage = "{\"message\":\"Access denied\"}";

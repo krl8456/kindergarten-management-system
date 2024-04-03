@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Component
 @Slf4j
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
-
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException{
         String responseMessage = "{\"message\":\"Authentication failed\"}";
