@@ -33,7 +33,7 @@ class JwtServiceTest {
     @BeforeEach
     public void setUp() throws IOException {
         Properties properties = new Properties();
-        properties.load(new FileInputStream("src/main/resources/application.properties"));
+        properties.load(new FileInputStream("src/test/resources/application.properties"));
         String secretKey = properties.getProperty("jwt.secret");
         ReflectionTestUtils.setField(jwtService, "JWTSecretKey", secretKey);
     }

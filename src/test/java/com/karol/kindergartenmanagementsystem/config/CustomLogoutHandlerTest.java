@@ -6,22 +6,22 @@ import com.karol.kindergartenmanagementsystem.security.CustomLogoutHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 
-import java.util.Optional;
-
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderProperties.AUTHORIZATION_HEADER;
-import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderProperties.TOKEN_PREFIX;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class CustomLogoutHandlerTest {
-    @Mock
+    @Autowired
     private TokenRepository tokenRepository;
     @Mock
     private HttpServletRequest request;
@@ -29,19 +29,28 @@ class CustomLogoutHandlerTest {
     private HttpServletResponse response;
     @Mock
     private Authentication authentication;
-    @InjectMocks
+    @Autowired
     private CustomLogoutHandler customLogoutHandler;
+    @Value("${authorization.header}")
+    private String AuthorizationHeader;
+    @Value("${jwt.token.prefix}")
+    private String JwtTokenPrefix;
+
     @Test
-    public void givenToken_whenLogout_thenSetsTokenToLoggedOut() throws Exception {
+    public void givenToken_whenLogout_thenSetsTokenToLoggedOut() {
         Token token = Token.builder()
                 .loggedOut(false)
                 .token("token")
                 .build();
-        when(request.getHeader(AUTHORIZATION_HEADER)).thenReturn(TOKEN_PREFIX + token.getToken());
-        when(tokenRepository.findByToken(token.getToken())).thenReturn(Optional.of(token));
+        tokenRepository.save(token);
+        when(request.getHeader(AuthorizationHeader)).thenReturn(JwtTokenPrefix + token.getToken());
 
         customLogoutHandler.logout(request, response, authentication);
 
-        assertTrue(token.isLoggedOut());
+        Token retrievedToken = tokenRepository.findByToken(token.getToken())
+                .orElseThrow(() -> new AssertionError("Token not found"));
+
+        assertNotNull(retrievedToken);
+        assertTrue(retrievedToken.isLoggedOut());
     }
 }

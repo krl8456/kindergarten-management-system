@@ -9,18 +9,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.util.Optional;
-
-import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderProperties.AUTHORIZATION_HEADER;
-import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderProperties.TOKEN_PREFIX;
 
 @Component
 @RequiredArgsConstructor
@@ -28,15 +25,19 @@ import static com.karol.kindergartenmanagementsystem.http.AuthorizationHeaderPro
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserAccountDetailsService userAccountDetailsService;
+    @Value("${authorization.header}")
+    private String AuthorizationHeader;
+    @Value("${jwt.token.prefix}")
+    private String JwtTokenPrefix;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
-        Optional.ofNullable(request.getHeader(AUTHORIZATION_HEADER))
-                .filter(authHeader -> authHeader.startsWith(TOKEN_PREFIX))
+        Optional.ofNullable(request.getHeader(AuthorizationHeader))
+                .filter(authHeader -> authHeader.startsWith(JwtTokenPrefix))
                 .ifPresentOrElse(authHeader -> {
-                    String token = authHeader.substring(TOKEN_PREFIX.length());
+                    String token = authHeader.substring(JwtTokenPrefix.length());
                     String email = jwtService.extractEmail(token);
 
                     authenticateUser(email, token, request);
